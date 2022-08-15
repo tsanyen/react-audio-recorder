@@ -16,7 +16,7 @@ export const useAudioRecorder = () => {
   const [status, setStatus] = useState<record_status_type>(RECORD_STATUS.IDLE)
   const [audioResult, setAudioResult] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
-
+  const [preview, setPreview] = useState<Blob>()
   const {
     timer,
     handleStartTimer,
@@ -41,6 +41,7 @@ export const useAudioRecorder = () => {
             }
             mediaRecorder.ondataavailable = (event: BlobEvent) => {
               dataArray.current.push(event.data)
+              setPreview(event.data)
             }
           })
           .catch((error) => {
@@ -102,6 +103,7 @@ export const useAudioRecorder = () => {
     pauseRecording,
     resumeRecording,
     status,
+    preview,
     audioResult,
     errorMessage,
     timer
